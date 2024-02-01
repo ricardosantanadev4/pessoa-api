@@ -1,6 +1,7 @@
 package com.java3.projetoBlutecnologi.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,16 @@ public class PessoaService {
 				.collect(Collectors.toList()));
 	}
 
+	public void findByEmail(PessoaDTO pessoaDTO) {
+		Optional<Pessoa> getPessoa = this.pessoaRepository.findByEmail(pessoaDTO.getEmail());
+		if (getPessoa.isPresent()) {
+			throw new IllegalArgumentException(
+					"O E-mail informardo: " + pessoaDTO.getEmail() + " já possui cadastro na base");
+		}
+	}
+
 	public ResponseEntity<PessoaDTO> create(PessoaDTO pessoaDTO) {
+		this.findByEmail(pessoaDTO);
 		return new ResponseEntity<PessoaDTO>(new PessoaDTO(this.pessoaRepository.save(new Pessoa(pessoaDTO))),
 				HttpStatusCode.valueOf(201));
 	}
