@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.java3.projetoBlutecnologi.dto.PessoaDTO;
+import com.java3.projetoBlutecnologi.exceptions.IllegalArgumentException;
 import com.java3.projetoBlutecnologi.exceptions.ObjectNotFoundException;
 import com.java3.projetoBlutecnologi.moldels.Pessoa;
 import com.java3.projetoBlutecnologi.repositorys.PessoaRepository;
@@ -27,7 +28,7 @@ public class PessoaService {
 
 	public ResponseEntity<PessoaDTO> findById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(new PessoaDTO(this.pessoaRepository.findById(id)
-				.orElseThrow(() -> new ObjectNotFoundException("Pessoa não encontrada!"))));
+				.orElseThrow(() -> new ObjectNotFoundException("Pessoa não encontrada com o id fornecido."))));
 	}
 
 	public ResponseEntity<List<PessoaDTO>> findAllByNome(String nome) {
@@ -38,8 +39,7 @@ public class PessoaService {
 	public void findByEmail(PessoaDTO pessoaDTO) {
 		Optional<Pessoa> getPessoa = this.pessoaRepository.findByEmail(pessoaDTO.getEmail());
 		if (getPessoa.isPresent()) {
-			throw new IllegalArgumentException(
-					"O E-mail informardo: " + pessoaDTO.getEmail() + " já possui cadastro na base");
+			throw new IllegalArgumentException("O E-mail informardo: " + pessoaDTO.getEmail() + " já possui cadastro na base");
 		}
 	}
 
