@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,24 +38,25 @@ public class PessoaService {
 
 	public void findByEmail(PessoaDTO pessoaDTO) {
 		Optional<Pessoa> getPessoa = this.pessoaRepository.findByEmail(pessoaDTO.getEmail());
-		if (getPessoa.isPresent()) {
-			throw new IllegalArgumentException("O E-mail informardo: " + pessoaDTO.getEmail() + " já possui cadastro na base");
+		if (getPessoa.isPresent() && getPessoa.get().getEmail().equals(pessoaDTO.getEmail())) {
+			throw new IllegalArgumentException(
+					"O E-mail informardo: " + pessoaDTO.getEmail() + " já possui cadastro na base");
 		}
 	}
 
 	public ResponseEntity<PessoaDTO> create(PessoaDTO pessoaDTO) {
 		this.findByEmail(pessoaDTO);
-		return new ResponseEntity<PessoaDTO>(new PessoaDTO(this.pessoaRepository.save(new Pessoa(pessoaDTO))),
-				HttpStatusCode.valueOf(201));
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(new PessoaDTO(this.pessoaRepository.save(new Pessoa(pessoaDTO))));
 	}
 
 	public ResponseEntity<PessoaDTO> edit(Long id, PessoaDTO pessoaDTO) {
-		return this.pessoaRepository.findById(pessoaDTO.getId()).map(pessoa -> {
+		return this.pessoaRepository.findById(id).map(pessoa -> {
 			pessoa.setNome(pessoaDTO.getNome());
 			pessoa.setEmail(pessoaDTO.getEmail());
 			pessoa.setTelefone(pessoaDTO.getTelefone());
 			return ResponseEntity.ok().body(new PessoaDTO(this.pessoaRepository.save(pessoa)));
-		}).orElseThrow(() -> new ObjectNotFoundException("Pessoa não encontrada!"));
+		}).orElseThrow(() -> new ObjectNotFoundException("Pessoa não encontrada com o id fornecido."));
 	}
 
 	public ResponseEntity<Void> delete(Long id) {
