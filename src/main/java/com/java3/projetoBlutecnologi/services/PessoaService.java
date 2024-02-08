@@ -31,9 +31,9 @@ public class PessoaService {
 				.orElseThrow(() -> new ObjectNotFoundException("Pessoa não encontrada com o id fornecido."))));
 	}
 
-	public ResponseEntity<List<PessoaDTO>> findAllByNome(String nome) {
-		return ResponseEntity.ok().body(this.pessoaRepository.findAllByNome(nome).stream().map(p -> new PessoaDTO(p))
-				.collect(Collectors.toList()));
+	public ResponseEntity<List<PessoaDTO>> findByNomeContainingIgnoreCase(String nome) {
+		return ResponseEntity.ok().body(this.pessoaRepository.findByNomeContainingIgnoreCase(nome).stream()
+				.map(p -> new PessoaDTO(p)).collect(Collectors.toList()));
 	}
 
 	public void findByEmail(PessoaDTO pessoaDTO) {
@@ -51,6 +51,7 @@ public class PessoaService {
 	}
 
 	public ResponseEntity<PessoaDTO> edit(Long id, PessoaDTO pessoaDTO) {
+		this.findByEmail(pessoaDTO);
 		return this.pessoaRepository.findById(id).map(pessoa -> {
 			pessoa.setNome(pessoaDTO.getNome());
 			pessoa.setEmail(pessoaDTO.getEmail());

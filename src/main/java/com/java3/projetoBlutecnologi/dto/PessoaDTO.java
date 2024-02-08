@@ -2,11 +2,19 @@ package com.java3.projetoBlutecnologi.dto;
 
 import com.java3.projetoBlutecnologi.moldels.Pessoa;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class PessoaDTO {
 
 	private Long id;
+
+	@NotBlank
 	private String nome;
+
+	@NotBlank
 	private String email;
+
+	@NotBlank
 	private String telefone;
 
 	public PessoaDTO() {

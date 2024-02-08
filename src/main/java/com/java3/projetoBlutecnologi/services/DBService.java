@@ -15,11 +15,11 @@ public class DBService {
 	private PessoaRepository pessoaRepository;
 
 	public void instanciaDB() {
-		Pessoa pessoa1 = new Pessoa("Nome Pessoa1", "Email Pessoa1", "Telefone Pessoa 1");
-		Pessoa pessoa2 = new Pessoa("Nome Pessoa2", "Email Pessoa2", "Telefone Pessoa 2");
-		Pessoa pessoa3 = new Pessoa("Nome Pessoa3", "Email Pessoa3", "Telefone Pessoa 3");
-		Pessoa pessoa4 = new Pessoa("Nome Pessoa4", "Email Pessoa4", "Telefone Pessoa 4");
-		Pessoa pessoa5 = new Pessoa("Nome Pessoa5", "Email Pessoa5", "Telefone Pessoa 5");
+		Pessoa pessoa1 = new Pessoa("Ricardo Silva", "ricardo.silva@email.com", "81988888888");
+		Pessoa pessoa2 = new Pessoa("Rinaldo Carlos", "rinaldo.carlos@email.com", "81777777777");
+		Pessoa pessoa3 = new Pessoa("Lucia Oliveira", "lucia.oliveira@email.com", "81666666666");
+		Pessoa pessoa4 = new Pessoa("Amanda Medeiros", "amanda.medeiros@email.com", "81555555555");
+		Pessoa pessoa5 = new Pessoa("Luana Beovani", "luana.beovani@email.com", "81444444444");
 
 		this.pessoaRepository.saveAll(Arrays.asList(pessoa1, pessoa2, pessoa3, pessoa4, pessoa5));
 	}

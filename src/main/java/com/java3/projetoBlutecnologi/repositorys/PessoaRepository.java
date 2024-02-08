@@ -10,7 +10,7 @@ import com.java3.projetoBlutecnologi.moldels.Pessoa;
 public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
 	public Optional<Pessoa> findByNome(String nome);
 
-	public List<Pessoa> findAllByNome(String nome);
+	public List<Pessoa> findByNomeContainingIgnoreCase(String nome);
 
 	public Optional<Pessoa> findByEmail(String email);
 }
