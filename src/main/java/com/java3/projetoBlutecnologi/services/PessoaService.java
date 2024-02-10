@@ -40,7 +40,7 @@ public class PessoaService {
 		Optional<Pessoa> getPessoa = this.pessoaRepository.findByEmail(pessoaDTO.getEmail());
 		if (getPessoa.isPresent() && getPessoa.get().getEmail().equals(pessoaDTO.getEmail())) {
 			throw new IllegalArgumentException(
-					"O E-mail informardo: " + pessoaDTO.getEmail() + " já possui cadastro na base");
+					"O E-mail fornecido: " + pessoaDTO.getEmail() + " já possui cadastro na base");
 		}
 	}
 

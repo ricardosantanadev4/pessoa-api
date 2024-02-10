@@ -1,5 +1,7 @@
 package com.java3.projetoBlutecnologi.dto;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.java3.projetoBlutecnologi.moldels.Pessoa;
 
 import jakarta.validation.constraints.NotBlank;
@@ -9,12 +11,15 @@ public class PessoaDTO {
 	private Long id;
 
 	@NotBlank
+	@Length(min = 1, max = 50)
 	private String nome;
 
 	@NotBlank
+	@Length(min = 1, max = 50)
 	private String email;
 
 	@NotBlank
+	@Length(min = 11, max = 11)
 	private String telefone;
 
 	public PessoaDTO() {
