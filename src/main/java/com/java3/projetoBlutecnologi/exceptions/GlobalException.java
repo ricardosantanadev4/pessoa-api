@@ -8,6 +8,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
@@ -33,6 +34,14 @@ public class GlobalException {
 
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ResponseEntity<StandardError> constraintViolationException(ConstraintViolationException e,
+			HttpServletRequest request) {
+		StandardError se = new StandardError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), e.getMessage(),
+				request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(se);
+	}
+
+	@ExceptionHandler(NoResourceFoundException.class)
+	public ResponseEntity<StandardError> noResourceFoundException(NoResourceFoundException e,
 			HttpServletRequest request) {
 		StandardError se = new StandardError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), e.getMessage(),
 				request.getRequestURI());

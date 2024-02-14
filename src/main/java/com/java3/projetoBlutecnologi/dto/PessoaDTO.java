@@ -15,7 +15,7 @@ public class PessoaDTO {
 	private String nome;
 
 	@NotBlank
-	@Length(min = 1, max = 50)
+	@Length(min = 11, max = 50)
 	private String email;
 
 	@NotBlank
